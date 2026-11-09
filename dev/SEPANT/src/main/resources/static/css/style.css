@@ -1,0 +1,634 @@
+/* =========================================================
+   SEPANT 共通スタイル
+   ========================================================= */
+
+/* ---------- 色・サイズの定義 ---------- */
+:root {
+    /* 基調色：リネン（#faf0e6）を中心としたパステル調 */
+    --color-bg: #faf0e6;            /* 背景（リネン） */
+    --color-surface: #fffaf4;       /* カード */
+    --color-text: #4a3b33;          /* 文字（こげ茶） */
+    --color-text-sub: #75655b;      /* 補足の文字 */
+    --color-border: #eadccd;        /* 罫線 */
+
+    --color-header: #f3d6c1;        /* ヘッダー（パステルピーチ） */
+    --color-header-text: #4a3b33;
+
+    --color-primary: #9a5b3c;       /* リンク・強調（テラコッタ） */
+    --color-primary-soft: #f6e2d3;  /* 「設定」ボタンの背景 */
+    --color-button: #efbfa0;        /* 計算開始ボタン（パステルオレンジ） */
+    --color-button-active: #e6a985;
+    --color-button-text: #4a3b33;
+
+    --color-done: #d5e6cf;          /* 精算済バッジ（パステルグリーン） */
+    --color-done-text: #3f5f37;
+
+    --color-error: #b23a3a;
+    --color-error-soft: #fbe3e1;
+    --color-warning: #7a5a12;
+    --color-warning-soft: #fdf1cf;
+    --color-disabled: #e3d8ce;
+    --color-disabled-text: #a89a8f;
+
+    --radius: 14px;
+    --header-height: 60px;
+    --footer-height: 84px;
+    --max-width: 480px;
+}
+
+/* ---------- リセット ---------- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    margin: 0;
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN",
+                 "Noto Sans JP", "Noto Sans CJK JP", sans-serif;
+    font-size: 17px;
+    line-height: 1.5;
+}
+
+h1, h2, p, ul {
+    margin: 0;
+	text-align: center;
+}
+
+ul {
+    padding: 0;
+    list-style: none;
+}
+
+a {
+    color: inherit;
+}
+
+/* ---------- ヘッダー ---------- */
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: var(--max-width);
+    height: var(--header-height);
+    margin: 0 auto;
+    padding: 0 8px;
+    background: var(--color-header);
+    color: var(--color-header-text);
+}
+
+.header__month {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    font-variant-numeric: tabular-nums;
+}
+
+.header__nav {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    font-size: 20px;
+    text-decoration: none;
+}
+
+.header__nav:active {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+/* ---------- メイン ---------- */
+.main {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 10px 10px calc(var(--footer-height) + 16px);
+}
+
+/* ---------- メッセージ ---------- */
+.warnings {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.message {
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-size: 15px;
+}
+
+.message--error {
+    background: var(--color-error-soft);
+    color: var(--color-error);
+}
+
+.message--warning {
+    background: var(--color-warning-soft);
+    color: var(--color-warning);
+}
+
+/* ---------- サマリー ---------- */
+.summary {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 16px;
+    border-radius: var(--radius);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+}
+
+.summary__head {
+    margin-bottom: 4px;
+}
+
+.summary__direction {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+}
+
+.summary__amount {
+    font-size: 38px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.2;
+}
+
+.summary__link {
+    margin-top: 6px;
+    padding: 8px 16px;
+    color: var(--color-primary);
+    font-size: 16px;
+    font-weight: 600;
+}
+
+/* ---------- バッジ（精算状況） ---------- */
+.badge {
+    display: inline-block;
+    padding: 2px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--color-text-sub);
+    color: var(--color-text-sub);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.badge--done {
+    border-color: var(--color-done);
+    background: var(--color-done);
+    color: var(--color-done-text);
+}
+
+/* ---------- カード ---------- */
+.card {
+    padding: 14px 14px 8px;
+    border-radius: var(--radius);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+}
+
+.card__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.card__title {
+    margin-bottom: 4px;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.card__action {
+    padding: 6px 16px;
+    border-radius: 999px;
+    background: var(--color-primary-soft);
+    color: var(--color-primary);
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+/* ---------- テーブル ---------- */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 17px;
+}
+
+.table th,
+.table td {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--color-border);
+    font-weight: normal;
+    text-align: left;
+}
+
+.table tbody tr:last-child th,
+.table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.table thead th {
+    padding: 6px 0;
+    color: var(--color-text-sub);
+    font-size: 14px;
+}
+
+.table .num {
+    width: 30%;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+.table .center {
+    width: 24%;
+    text-align: center;
+}
+
+/* 金額のリンク（タップで支払い登録へ） */
+.amount-link {
+    display: inline-block;
+    min-width: 64px;
+    padding: 4px 0;
+    color: var(--color-primary);
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-underline-offset: 4px;
+}
+
+.is-zero {
+    color: var(--color-text-sub);
+}
+
+.mark {
+    color: var(--color-primary);
+    font-weight: 700;
+}
+
+/* ---------- フッター ---------- */
+.footer {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 10;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 12px 12px calc(12px + env(safe-area-inset-bottom));
+    background: rgba(250, 240, 230, 0.95);
+    border-top: 1px solid var(--color-border);
+}
+
+/* ---------- ボタン ---------- */
+.btn {
+    display: block;
+    width: 100%;
+    height: 56px;
+    border: none;
+    border-radius: var(--radius);
+    font: inherit;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.btn--primary {
+    background: var(--color-button);
+    color: var(--color-button-text);
+}
+
+.btn--primary:active {
+    background: var(--color-button-active);
+}
+
+.btn:disabled {
+    background: var(--color-disabled);
+    color: var(--color-disabled-text);
+    cursor: not-allowed;
+}
+
+/* =========================================================
+   入力画面（固定費設定）
+   ========================================================= */
+
+/* ---------- タイトルだけのヘッダー ---------- */
+.header--title {
+    justify-content: center;
+    max-width: 760px;
+}
+
+.header__title {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+/* 表が横に長い画面は、PCでは幅を広げる */
+.main--wide {
+    max-width: 760px;
+    gap: 0;
+}
+
+/* ---------- セクション（固定費・収入・当番） ---------- */
+.setting {
+    padding: 16px 0;
+    border-bottom: 2px dotted var(--color-border);
+}
+
+.setting:last-of-type {
+    border-bottom: none;
+}
+
+.setting__title {
+    margin: 0 0 8px 4px;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.setting__actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 8px;
+    padding-right: 44px; /* ×ボタンの列の分だけ内側に寄せる */
+}
+
+/* ---------- 入力用の表 ---------- */
+/* スマートフォンでは表だけを横スクロールさせる */
+.grid-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.grid {
+    width: 100%;
+    min-width: 700px;
+    table-layout: fixed; /* 列幅を固定し、入力欄の中身で崩れないようにする */
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.grid th,
+.grid td {
+    padding: 0;
+    border-right: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-surface);
+}
+
+.grid thead th {
+    height: 34px;
+    border-top: 1px solid var(--color-border);
+    background: var(--color-primary-soft);
+    color: var(--color-text);
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.grid th:first-child,
+.grid td:first-child {
+    border-left: 1px solid var(--color-border);
+}
+
+.grid thead th:first-child {
+    border-top-left-radius: 10px;
+}
+
+.grid thead th:nth-last-child(2) {
+    border-top-right-radius: 10px;
+}
+
+.grid tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 10px;
+}
+
+.grid tbody tr:last-child td:nth-last-child(2) {
+    border-bottom-right-radius: 10px;
+}
+
+/* ×ボタンの列は表の外側に見せる */
+.grid .col-remove {
+    width: 44px;
+    border: none;
+    background: transparent;
+    text-align: center;
+}
+
+.col-himoku  { width: 116px; }
+.col-user    { width: 84px; }
+.col-kingaku { width: 112px; }
+.col-month   { width: 124px; }
+/* 備考は残りの幅をすべて使う */
+
+/* セルの中の入力欄：枠を消して、表のマス目そのものを入力欄に見せる */
+.cell-input,
+.cell-select {
+    display: block;
+    width: 100%;
+    height: 42px;
+    padding: 0 8px;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    color: var(--color-text);
+    font: inherit;
+    font-size: 16px; /* iPhoneで入力時に画面が拡大されないよう16px以上 */
+}
+
+.cell-input:focus,
+.cell-select:focus {
+    outline: 2px solid var(--color-button-active);
+    outline-offset: -2px;
+    background: #fff;
+}
+
+.cell-select {
+    appearance: none;
+    padding-right: 26px;
+    text-align: center;
+    background-image: linear-gradient(45deg, transparent 50%, var(--color-text-sub) 50%),
+                      linear-gradient(135deg, var(--color-text-sub) 50%, transparent 50%);
+    background-position: calc(100% - 14px) 50%, calc(100% - 9px) 50%;
+    background-size: 5px 5px, 5px 5px;
+    background-repeat: no-repeat;
+}
+
+.cell-input[type="month"] {
+    padding: 0 4px;
+    font-size: 15px;
+}
+
+/* 金額の先頭に「¥」を表示する */
+.cell-yen {
+    position: relative;
+    display: block;
+}
+
+.cell-yen::before {
+    content: "¥";
+    position: absolute;
+    top: 50%;
+    left: 8px;
+    transform: translateY(-50%);
+    color: var(--color-text-sub);
+}
+
+.cell-yen .cell-input {
+    padding-left: 22px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+/* 入力エラーのセル */
+.cell-input.is-error,
+.cell-select.is-error {
+    background: var(--color-error-soft);
+}
+
+.field-error {
+    margin-top: 6px;
+    color: var(--color-error);
+    font-size: 13px;
+}
+
+/* ---------- 小さいボタン ---------- */
+.btn-remove {
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-surface);
+    color: var(--color-text-sub);
+    font: inherit;
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.btn-remove:active {
+    background: var(--color-primary-soft);
+}
+
+.btn-small {
+    min-width: 112px;
+    height: 36px;
+    padding: 0 16px;
+    border: 1px solid var(--color-button-active);
+    border-radius: 10px;
+    background: var(--color-surface);
+    color: var(--color-primary);
+    font: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-small:active {
+    background: var(--color-primary-soft);
+}
+
+/* ---------- フッター：左右に2つのボタン ---------- */
+.footer--split {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    max-width: 760px;
+}
+
+.footer--split .btn {
+    width: 40%;
+    max-width: 200px;
+}
+
+.btn--secondary {
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    color: var(--color-text);
+    text-decoration: none;
+}
+
+.btn--secondary:active {
+    background: var(--color-primary-soft);
+}
+
+/* 画面の読み上げ用（見た目には表示しない） */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+/* =========================================================
+   固定費設定（閲覧のみ）
+   ========================================================= */
+.page-note {
+    padding: 12px 4px 0;
+    color: var(--color-text-sub);
+    font-size: 15px;
+}
+
+.grid--view {
+    min-width: 600px;
+}
+
+.grid--view tbody td {
+    height: 48px;
+    padding: 0 10px;
+    font-size: 17px;
+}
+
+.grid--view .num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+.grid--view .center {
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+}
+
+/* ×の列がないので、右上・右下の角を最後の列で丸める */
+.grid--view thead th:last-child {
+    border-top-right-radius: 10px;
+}
+
+.grid--view tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 10px;
+}
+
+.grid--view .col-month {
+    width: 96px;
+}
+
+/* フッターのボタンを1つだけ置くとき */
+.footer > .btn--secondary {
+    max-width: 760px;
+}
+
+/* 入力用の表で付けた「最後から2列目」の角丸を打ち消す */
+.grid--view thead th:nth-last-child(2),
+.grid--view tbody tr:last-child td:nth-last-child(2) {
+    border-radius: 0;
+}

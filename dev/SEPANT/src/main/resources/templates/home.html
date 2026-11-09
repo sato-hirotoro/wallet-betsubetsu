@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+	<meta charset="UTF-8">
+	<title>SEPANT</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<h1>SEPANT</h1><br>
+
+<!-- ===== ヘッダー：対象月の切り替え ===== -->
+<header class="header">
+    <a class="header__nav" href="/home" th:href="@{/home(ym=${view.prevYm})}" aria-label="前月">◀</a>
+    <h1 class="header__month" th:text="${@ymFormatter.display(view.ym)}">2026.6</h1>
+    <a class="header__nav" href="/home" th:href="@{/home(ym=${view.nextYm})}" aria-label="翌月">▶</a>
+</header>
+
+<main class="main">
+
+    <!-- ===== メッセージ ===== -->
+    <div class="warnings" th:if="${errorMessage != null or !view.warnings.isEmpty()}">
+        <p class="message message--error" th:if="${errorMessage != null}" th:text="${errorMessage}">精算済みの月は変更できません。</p>
+        <p class="message message--warning" th:each="w : ${view.warnings}" th:text="${w}">皿洗いの担当が未設定です。</p>
+    </div>
+
+    <!-- ===== サマリー ===== -->
+    <section class="summary">
+        <div class="summary__head">
+            <span class="badge" th:classappend="${view.settled} ? 'badge--done'" th:text="${view.settled} ? '精算済' : '未精算'">未精算</span>
+        </div>
+        <p class="summary__direction" th:text="${view.result.direction.label}">夫◀妻</p>
+        <p class="summary__amount" th:text="${@amountFormatter.format(view.result.amount)}">¥26,049</p>
+        <a class="summary__link" href="#" th:href="@{/result(ym=${view.ym})}">内訳を見る</a>
+    </section>
+
+    <!-- ===== 変動費（折半） ===== -->
+    <section class="card">
+        <h2 class="card__title">変動費（折半）</h2>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">費目</th>
+                <th scope="col" class="num">夫</th>
+                <th scope="col" class="num">妻</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="row : ${view.seppanRows}">
+                <th scope="row" th:text="${row.himokuName}">食費</th>
+                <td class="num">
+                    <a th:unless="${view.settled}" class="amount-link" th:classappend="${row.otto == 0} ? 'is-zero'"
+                       href="#" th:href="@{/payment(ym=${view.ym},userId=1,himokuCd=${row.himokuCd})}"
+                       th:text="${@amountFormatter.format(row.otto)}">¥20,000</a>
+                    <span th:if="${view.settled}" th:text="${@amountFormatter.format(row.otto)}"></span>
+                </td>
+                <td class="num">
+                    <a th:unless="${view.settled}" class="amount-link" th:classappend="${row.tsuma == 0} ? 'is-zero'"
+                       href="#" th:href="@{/payment(ym=${view.ym},userId=2,himokuCd=${row.himokuCd})}"
+                       th:text="${@amountFormatter.format(row.tsuma)}">¥15,000</a>
+                    <span th:if="${view.settled}" th:text="${@amountFormatter.format(row.tsuma)}"></span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- ===== 変動費（立替） ===== -->
+    <section class="card">
+        <h2 class="card__title">変動費（立替）</h2>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">費目</th>
+                <th scope="col" class="num">夫</th>
+                <th scope="col" class="num">妻</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="row : ${view.tatekaeRows}">
+                <th scope="row" th:text="${row.himokuName}">携帯代</th>
+                <td class="num">
+                    <a th:unless="${view.settled}" class="amount-link" th:classappend="${row.otto == 0} ? 'is-zero'"
+                       href="#" th:href="@{/payment(ym=${view.ym},userId=1,himokuCd=${row.himokuCd})}"
+                       th:text="${@amountFormatter.format(row.otto)}">¥3,000</a>
+                    <span th:if="${view.settled}" th:text="${@amountFormatter.format(row.otto)}"></span>
+                </td>
+                <td class="num">
+                    <a th:unless="${view.settled}" class="amount-link" th:classappend="${row.tsuma == 0} ? 'is-zero'"
+                       href="#" th:href="@{/payment(ym=${view.ym},userId=2,himokuCd=${row.himokuCd})}"
+                       th:text="${@amountFormatter.format(row.tsuma)}">¥0</a>
+                    <span th:if="${view.settled}" th:text="${@amountFormatter.format(row.tsuma)}"></span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- ===== 固定費 ===== -->
+    <section class="card">
+        <div class="card__head">
+            <h2 class="card__title">固定費</h2>
+            <a class="card__action" href="/settei" th:href="@{/settei(ym=${view.ym})}">設定</a>
+        </div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">費目</th>
+                <th scope="col" class="center">支払った人</th>
+                <th scope="col" class="num">金額</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="row : ${view.koteiRows}">
+                <th scope="row" th:text="${row.himokuName}">家賃</th>
+                <td class="center" th:text="${row.userName}">夫</td>
+                <td class="num" th:text="${@amountFormatter.format(row.kingaku)}">¥80,000</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- ===== 収入 ===== -->
+    <section class="card">
+        <h2 class="card__title">収入</h2>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">費目</th>
+                <th scope="col" class="center">受け取る人</th>
+                <th scope="col" class="num">金額</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="row : ${view.shunyuRows}">
+                <th scope="row" th:text="${row.himokuName}">住居手当</th>
+                <td class="center" th:text="${row.userName}">夫</td>
+                <td class="num" th:text="${@amountFormatter.format(row.kingaku)}">¥20,000</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- ===== 当番 ===== -->
+    <section class="card">
+        <h2 class="card__title">当番</h2>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">費目</th>
+                <th scope="col" class="center">夫</th>
+                <th scope="col" class="center">妻</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="row : ${view.tobanRows}">
+                <th scope="row" th:text="${row.himokuName}">皿洗い</th>
+                <td class="center">
+                    <span class="mark" th:if="${row.otto}">○</span>
+                </td>
+                <td class="center"><span class="mark" th:if="${row.tsuma}">○</span></td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+</main>
+
+<!-- ===== フッター：計算開始 ===== -->
+<footer class="footer">
+    <form action="#" th:action="@{/result}" method="get">
+        <input type="hidden" name="ym" value="202606" th:value="${view.ym}">
+        <button type="submit" class="btn btn--primary" th:disabled="${view.settled}">計算開始</button>
+    </form>
+</footer>
+
+</body>
+
+</html>

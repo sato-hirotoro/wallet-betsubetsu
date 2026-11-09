@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+	<meta charset="UTF-8">
+	<title>SEPANT</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<!-- ===== ヘッダー ===== -->
+<header class="header header--title">
+    <h1 class="header__title">固定費設定</h1>
+</header>
+
+<main class="main main--wide">
+
+    <p class="page-note">登録されている固定費・収入・当番の一覧</p>
+
+    <!-- ===== 入力エラー ===== -->
+    <div class="warnings" th:if="${errors != null and !errors.isEmpty()}">
+        <p class="message message--error" th:each="e : ${errors}" th:text="${e}"></p>
+    </div>
+
+    <!-- ===== 固定費 ===== -->
+    <section class="setting">
+        <h2 class="setting__title">固定費</h2>
+        <div class="grid-wrap">
+            <table class="grid grid--view">
+                <thead>
+                <tr>
+                    <th scope="col" class="col-himoku">費目</th>
+                    <th scope="col" class="col-user">支払った人</th>
+                    <th scope="col" class="col-kingaku">金額</th>
+                    <th scope="col" class="col-month">開始月</th>
+                    <th scope="col" class="col-month">終了月</th>
+                    <th scope="col" class="col-biko">備考</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="row : ${setteiForm.koteiList}">
+                    <td th:text="${himokuNames[row.himokuCd]}">家賃</td>
+                    <td class="center" th:text="${userNames[row.userId]}">夫</td>
+                    <td class="num" th:text="${@amountFormatter.format(row.kingaku)}">¥80,000</td>
+                    <td class="center" th:text="${@ymFormatter.display(row.kaishiMm)}">2026.4</td>
+                    <td class="center" th:text="${@ymFormatter.display(row.shuryoMm)}">2027.3</td>
+                    <td th:text="${row.biko}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- ===== 収入 ===== -->
+    <section class="setting">
+        <h2 class="setting__title">収入</h2>
+        <div class="grid-wrap">
+            <table class="grid grid--view">
+                <thead>
+                <tr>
+                    <th scope="col" class="col-himoku">費目</th>
+                    <th scope="col" class="col-user">受け取る人</th>
+                    <th scope="col" class="col-kingaku">金額</th>
+                    <th scope="col" class="col-month">開始月</th>
+                    <th scope="col" class="col-month">終了月</th>
+                    <th scope="col" class="col-biko">備考</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="row : ${setteiForm.shunyuList}">
+                    <td th:text="${himokuNames[row.himokuCd]}">住居手当</td>
+                    <td class="center" th:text="${userNames[row.userId]}">夫</td>
+                    <td class="num" th:text="${@amountFormatter.format(row.kingaku)}">¥20,000</td>
+                    <td class="center" th:text="${@ymFormatter.display(row.kaishiMm)}">2026.4</td>
+                    <td class="center" th:text="${@ymFormatter.display(row.shuryoMm)}">2027.3</td>
+                    <td th:text="${row.biko}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- ===== 当番 ===== -->
+    <section class="setting">
+        <h2 class="setting__title">当番</h2>
+        <div class="grid-wrap">
+            <table class="grid grid--view">
+                <thead>
+                <tr>
+                    <th scope="col" class="col-himoku">費目</th>
+                    <th scope="col" class="col-user">担当者</th>
+                    <th scope="col" class="col-kingaku">金額</th>
+                    <th scope="col" class="col-month">開始月</th>
+                    <th scope="col" class="col-month">終了月</th>
+                    <th scope="col" class="col-biko">備考</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="row : ${setteiForm.tobanList}">
+                    <td th:text="${himokuNames[row.himokuCd]}">皿洗い</td>
+                    <td class="center" th:text="${userNames[row.userId]}">夫</td>
+                    <td class="num" th:text="${@amountFormatter.format(row.kingaku)}">¥2,000</td>
+                    <td class="center" th:text="${@ymFormatter.display(row.kaishiMm)}">2026.4</td>
+                    <td class="center" th:text="${@ymFormatter.display(row.shuryoMm)}">2026.9</td>
+                    <td th:text="${row.biko}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</main>
+
+<!-- ===== フッター：homeに戻る ===== -->
+<footer class="footer">
+    <a class="btn btn--secondary" href="/home" th:href="@{/home(ym=${setteiForm.ym})}">homeに戻る</a>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>SEPANT</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<header class="header header--title">
+    <h1 class="header__title">エラー</h1>
+</header>
+
+<main class="main">
+    <p class="message message--error" th:text="${errorMessage} ?: #{E901}">不正なリクエストです。ホームからやり直してください。</p>
+</main>
+
+<footer class="footer">
+    <a class="btn btn--secondary" th:href="@{/home}">homeに戻る</a>
+</footer>
+
+</body>
+</html>

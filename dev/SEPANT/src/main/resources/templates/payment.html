@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>SEPANT</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<!-- ===== ヘッダー ===== -->
+<header class="header header--title">
+    <h1 class="header__title">支払い登録</h1>
+</header>
+
+<form method="post" th:action="@{/payment}" th:object="${paymentForm}">
+<input type="hidden" th:field="*{ym}">
+<input type="hidden" th:field="*{userId}">
+<input type="hidden" th:field="*{himokuCd}">
+
+<main class="main main--wide">
+
+    <p class="page-note"
+       th:text="|${@ymFormatter.display(paymentForm.ym)}　${cell.user.userName}　${cell.himoku.himokuName}|">2026.6　夫　食費</p>
+
+    <section class="setting">
+        <div class="grid-wrap">
+            <table class="grid">
+                <thead>
+                <tr>
+                    <th scope="col" class="col-month">支払日</th>
+                    <th scope="col" class="col-kingaku">金額</th>
+                    <th scope="col" class="col-biko">備考</th>
+                    <th scope="col" class="col-remove"><span class="visually-hidden">削除</span></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="row, st : *{meisaiList}">
+                    <td>
+                        <input type="date" class="cell-input"
+                               th:field="*{meisaiList[__${st.index}__].shiharaiDd}"
+                               th:min="${minDate}" th:max="${maxDate}"
+                               th:errorclass="is-error">
+                    </td>
+                    <td>
+                        <span class="cell-yen">
+                            <input type="number" class="cell-input" inputmode="numeric" min="1"
+                                   th:field="*{meisaiList[__${st.index}__].kingaku}"
+                                   th:errorclass="is-error">
+                        </span>
+                    </td>
+                    <td>
+                        <input type="text" class="cell-input" maxlength="50"
+                               th:field="*{meisaiList[__${st.index}__].biko}"
+                               th:errorclass="is-error">
+                    </td>
+                    <td class="col-remove">
+                        <button type="submit" class="btn-remove" name="removeRow"
+                                th:value="${st.index}" formnovalidate aria-label="行を削除">×</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="field-error" th:each="e : ${errors}" th:text="${e}"></div>
+
+        <div class="setting__actions">
+            <button type="submit" class="btn-small" name="addRow" value="true" formnovalidate>行の追加</button>
+        </div>
+    </section>
+
+</main>
+
+<!-- ===== フッター ===== -->
+<footer class="footer footer--split">
+    <a class="btn btn--secondary" th:href="@{/home(ym=${paymentForm.ym})}">homeに戻る</a>
+    <button type="submit" class="btn btn--primary" name="register" value="true">登録</button>
+</footer>
+
+</form>
+
+</body>
+</html>

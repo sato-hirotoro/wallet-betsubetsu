@@ -1,0 +1,18 @@
+# ===== macOS =====
+.DS_Store
+
+# ===== Eclipse（ワークスペース・サーバー設定・プロジェクト設定）=====
+.metadata/
+Servers/
+.classpath
+.project
+.settings/
+.factorypath
+
+# ===== VS Code・IntelliJ =====
+.vscode/
+.idea/
+*.iml
+
+# ===== ビルド成果物 =====
+target/

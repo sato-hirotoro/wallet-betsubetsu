@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>SEPANT</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<header class="header header--title">
+    <h1 class="header__title">完了</h1>
+</header>
+
+<main class="main">
+    <section class="summary">
+        <p class="summary__direction" th:text="${completeMessage}">支払いの登録が完了しました。</p>
+    </section>
+</main>
+
+<footer class="footer">
+    <a class="btn btn--secondary" th:href="@{/home(ym=${ym})}">homeに戻る</a>
+</footer>
+
+</body>
+</html>

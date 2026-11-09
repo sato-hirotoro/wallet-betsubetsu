@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>SEPANT</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body th:with="r=${view.result}">
+
+<!-- ===== ヘッダー ===== -->
+<header class="header header--title">
+    <h1 class="header__title" th:text="|計算結果 ${@ymFormatter.display(view.ym)}|">計算結果 2026.6</h1>
+</header>
+
+<main class="main">
+
+    <!-- ===== 結果 ===== -->
+    <section class="summary">
+        <div class="summary__head">
+            <span class="badge" th:classappend="${view.settled} ? 'badge--done'" th:text="${view.settled} ? '精算済' : '未精算'">未精算</span>
+        </div>
+        <p class="summary__direction" th:text="${r.direction.label}">夫◀妻</p>
+        <p class="summary__amount" th:text="${@amountFormatter.format(r.amount)}">¥26,049</p>
+    </section>
+
+    <!-- ===== 支払いの一覧 ===== -->
+    <section class="card">
+        <h2 class="card__title">支払いの一覧</h2>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">費目</th>
+                <th scope="col" class="num">夫</th>
+                <th scope="col" class="num">妻</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="row : ${view.rows}">
+                <th scope="row" th:text="${row.himokuName}">食費</th>
+                <td class="num" th:text="${@amountFormatter.format(row.otto)}">¥0</td>
+                <td class="num" th:text="${@amountFormatter.format(row.tsuma)}">¥0</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- ===== 合計 ===== -->
+    <section class="card">
+        <h2 class="card__title">合計</h2>
+        <table class="table">
+            <tbody>
+            <tr>
+                <th scope="row">折半対象の合計</th>
+                <td class="num" th:text="${@amountFormatter.format(r.seppanTotal)}"></td>
+            </tr>
+            <tr>
+                <th scope="row">収入の合計</th>
+                <td class="num" th:text="${@amountFormatter.format(r.shunyuTotal)}"></td>
+            </tr>
+            <tr>
+                <th scope="row">折半対象 − 収入</th>
+                <td class="num" th:text="${@amountFormatter.format(r.seppanTaisho())}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- ===== 調整・結果 ===== -->
+    <section class="card">
+        <h2 class="card__title">内訳</h2>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">項目</th>
+                <th scope="col" class="num">夫</th>
+                <th scope="col" class="num">妻</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row">折半額</th>
+                <td class="num" th:text="${@amountFormatter.format(r.seppanGaku.otto)}"></td>
+                <td class="num" th:text="${@amountFormatter.format(r.seppanGaku.tsuma)}"></td>
+            </tr>
+            <tr>
+                <th scope="row">折半対象の支払</th>
+                <td class="num" th:text="${@amountFormatter.format(r.seppanPaid.otto)}"></td>
+                <td class="num" th:text="${@amountFormatter.format(r.seppanPaid.tsuma)}"></td>
+            </tr>
+            <tr>
+                <th scope="row">収入の受取</th>
+                <td class="num" th:text="${@amountFormatter.format(r.shunyu.otto)}"></td>
+                <td class="num" th:text="${@amountFormatter.format(r.shunyu.tsuma)}"></td>
+            </tr>
+            <tr>
+                <th scope="row">立替</th>
+                <td class="num" th:text="${@amountFormatter.format(r.tatekae.otto)}"></td>
+                <td class="num" th:text="${@amountFormatter.format(r.tatekae.tsuma)}"></td>
+            </tr>
+            <tr>
+                <th scope="row">当番</th>
+                <td class="num" th:text="${@amountFormatter.format(r.toban.otto)}"></td>
+                <td class="num" th:text="${@amountFormatter.format(r.toban.tsuma)}"></td>
+            </tr>
+            <tr>
+                <th scope="row">支払額</th>
+                <td class="num" th:text="${@amountFormatter.format(r.shiharai.otto)}"></td>
+                <td class="num" th:text="${@amountFormatter.format(r.shiharai.tsuma)}"></td>
+            </tr>
+            <tr>
+                <th scope="row">負担額</th>
+                <td class="num" th:text="${@amountFormatter.format(r.futan.otto)}"></td>
+                <td class="num" th:text="${@amountFormatter.format(r.futan.tsuma)}"></td>
+            </tr>
+            <tr>
+                <th scope="row">差額</th>
+                <td class="num" th:text="${@amountFormatter.format(r.sagaku.otto)}"></td>
+                <td class="num" th:text="${@amountFormatter.format(r.sagaku.tsuma)}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+</main>
+
+<!-- ===== フッター ===== -->
+<footer class="footer footer--split">
+    <a class="btn btn--secondary" th:href="@{/home(ym=${view.ym})}">homeに戻る</a>
+    <a class="btn btn--primary" style="display: grid; place-items: center; text-decoration: none;" th:unless="${view.settled}"
+       th:href="@{/seisan/confirm(ym=${view.ym})}">精算する</a>
+</footer>
+
+</body>
+</html>
